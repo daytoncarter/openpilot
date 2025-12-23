@@ -146,7 +146,7 @@ procs = [
   PythonProcess("selfdrived", "selfdrive.selfdrived.selfdrived", only_onroad),
   PythonProcess("card", "selfdrive.car.card", only_onroad),
   PythonProcess("deleter", "system.loggerd.deleter", always_run),
-  PythonProcess("dmonitoringd", "selfdrive.monitoring.dmonitoringd", driverview, enabled=(WEBCAM or not PC)),
+  # PythonProcess("dmonitoringd", "selfdrive.monitoring.dmonitoringd", driverview, enabled=(WEBCAM or not PC)),
   PythonProcess("qcomgpsd", "system.qcomgpsd.qcomgpsd", qcomgps, enabled=TICI),
   PythonProcess("pandad", "selfdrive.pandad.pandad", always_run),
   PythonProcess("paramsd", "selfdrive.locationd.paramsd", only_onroad),
@@ -195,9 +195,9 @@ procs += [
 # bluepilot
 procs += [
   # Web routes server
-  PythonProcess("bp_web_routes_server", "bluepilot.backend.web_routes_server", web_server_enabled),
+  # PythonProcess("bp_web_routes_server", "bluepilot.backend.web_routes_server", web_server_enabled),
   # Route preprocessor (runs in background during idle time)
-  PythonProcess("bp_route_preprocessor", "bluepilot.backend.route_preprocessor", route_preprocessor_enabled),
+  # PythonProcess("bp_route_preprocessor", "bluepilot.backend.route_preprocessor", route_preprocessor_enabled),
 ]
 
 if os.path.exists("./github_runner.sh"):
