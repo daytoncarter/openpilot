@@ -131,7 +131,7 @@ procs = [
   PythonProcess("timed", "system.timed", always_run, enabled=not PC),
 
   PythonProcess("modeld", "selfdrive.modeld.modeld", and_(only_onroad, is_stock_model)),
-  PythonProcess("dmonitoringmodeld", "selfdrive.modeld.dmonitoringmodeld", driverview, enabled=(WEBCAM or not PC)),
+  # PythonProcess("dmonitoringmodeld", "selfdrive.modeld.dmonitoringmodeld", driverview, enabled=(WEBCAM or not PC)),
 
   PythonProcess("sensord", "system.sensord.sensord", only_onroad, enabled=not PC),
   NativeProcess("ui", "selfdrive/ui", ["./ui"], always_run, watchdog_max_dt=(5 if not PC else None)),
@@ -146,7 +146,7 @@ procs = [
   PythonProcess("selfdrived", "selfdrive.selfdrived.selfdrived", only_onroad),
   PythonProcess("card", "selfdrive.car.card", only_onroad),
   PythonProcess("deleter", "system.loggerd.deleter", always_run),
-  PythonProcess("dmonitoringd", "selfdrive.monitoring.dmonitoringd", driverview, enabled=(WEBCAM or not PC)),
+  # PythonProcess("dmonitoringd", "selfdrive.monitoring.dmonitoringd", driverview, enabled=(WEBCAM or not PC)),
   PythonProcess("qcomgpsd", "system.qcomgpsd.qcomgpsd", qcomgps, enabled=TICI),
   PythonProcess("pandad", "selfdrive.pandad.pandad", always_run),
   PythonProcess("paramsd", "selfdrive.locationd.paramsd", only_onroad),
@@ -170,9 +170,9 @@ procs = [
   PythonProcess("joystick", "tools.joystick.joystick_control", and_(joystick, iscar)),
 
   # sunnylink <3
-  DaemonProcess("manage_sunnylinkd", "sunnypilot.sunnylink.athena.manage_sunnylinkd", "SunnylinkdPid"),
-  PythonProcess("sunnylink_registration_manager", "sunnypilot.sunnylink.registration_manager", sunnylink_need_register_shim),
-  PythonProcess("statsd_sp", "sunnypilot.sunnylink.statsd", and_(always_run, sunnylink_ready_shim)),
+  # DaemonProcess("manage_sunnylinkd", "sunnypilot.sunnylink.athena.manage_sunnylinkd", "SunnylinkdPid"),
+  # PythonProcess("sunnylink_registration_manager", "sunnypilot.sunnylink.registration_manager", sunnylink_need_register_shim),
+  # PythonProcess("statsd_sp", "sunnypilot.sunnylink.statsd", and_(always_run, sunnylink_ready_shim)),
 ]
 
 # sunnypilot
@@ -183,7 +183,7 @@ procs += [
   NativeProcess("modeld_tinygrad", "sunnypilot/modeld_v2", ["./modeld"], and_(only_onroad, is_tinygrad_model)),
 
   # Backup
-  PythonProcess("backup_manager", "sunnypilot.sunnylink.backups.manager", and_(only_offroad, sunnylink_ready_shim)),
+  # PythonProcess("backup_manager", "sunnypilot.sunnylink.backups.manager", and_(only_offroad, sunnylink_ready_shim)),
 
   # mapd
   NativeProcess("mapd", Paths.mapd_root(), ["bash", "-c", f"{MAPD_PATH} > /dev/null 2>&1"], mapd_ready),
@@ -196,17 +196,18 @@ procs += [
 # bluepilot
 procs += [
   # BluePilot Portal (routes, video streaming, exports, system metrics)
-  PythonProcess("bp_portal", "bluepilot.backend.bp_portal", portal_enabled),
+  # PythonProcess("bp_portal", "bluepilot.backend.bp_portal", portal_enabled),
   # Route preprocessor (runs in background during idle time)
-  PythonProcess("bp_route_preprocessor", "bluepilot.backend.routes.preprocessor", route_preprocessor_enabled),
+  # PythonProcess("bp_route_preprocessor", "bluepilot.backend.routes.preprocessor", route_preprocessor_enabled),
 ]
 
 if os.path.exists("./github_runner.sh"):
   procs += [NativeProcess("github_runner_start", "system/manager", ["./github_runner.sh", "start"], and_(only_offroad, use_github_runner), sigkill=False)]
 
 if os.path.exists("../../sunnypilot/sunnylink/uploader.py"):
-  procs += [PythonProcess("sunnylink_uploader", "sunnypilot.sunnylink.uploader", use_sunnylink_uploader_shim)]
-
+  # procs += [PythonProcess("sunnylink_uploader", "sunnypilot.sunnylink.uploader", use_sunnylink_uploader_shim)]
+  pass # Add 'pass' if you comment out the only line in the 'if' block
+  
 if os.path.exists("../../third_party/copyparty/copyparty-sfx.py"):
   sunnypilot_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
   copyparty_args = [f"-v{Paths.crash_log_root()}:/swaglogs:r"]
